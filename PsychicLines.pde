@@ -78,6 +78,15 @@ void keyPressed() {
     case 'r': rotateRight = rotateRight ? false : true; break;
     case '+': rotationSpeed += 0.004; break;
     case '-': rotationSpeed -= 0.004; break;
+    case '1': speed = 0.004; break;
+    case '2': speed = 0.006; break;
+    case '3': speed = 0.008; break;
+    case '4': speed = 0.01; break;
+    case '5': speed = 0.03; break;
+    case '6': speed = 0.04; break;
+    case '7': speed = 0.05; break;
+    case '8': speed = 0.07; break;
+    case '9': speed = 0.1; break;
   }
 }
 
