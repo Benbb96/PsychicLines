@@ -5,7 +5,6 @@ class MovingLine {
   PVector a, b, t, initialT;
   float r = 0;
   float initialR = 0;
-  float speed = 0.1;  // ==> Jouer sur la vitesse
   
   int animation = 0;
   boolean ready = true;
@@ -62,6 +61,8 @@ class MovingLine {
     translate(t.x * SIZE, t.y * SIZE);
     rotate(r);
     line(a.x * SIZE , a.y * SIZE, b.x * SIZE, b.y * SIZE);
+    //rect(a.x * SIZE , a.y * SIZE, b.x * SIZE, b.y * SIZE);
+    //ellipse(a.x * SIZE , b.y * SIZE, a.y * SIZE*2, b.x * SIZE-10);
     popMatrix();
   }
   

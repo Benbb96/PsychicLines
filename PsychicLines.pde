@@ -1,17 +1,21 @@
 /* Animation réalisé par Benbb96 */
 
-final int NB = 500;  // Nombre de Moving Lines
+final int NB = 300;  // Nombre de Moving Lines
 MovingLine[] lines = new MovingLine[NB];
 
 MyColor myColor = new MyColor();
 
+float speed = 0.01;  // ==> Jouer sur la vitesse
 float rotation = 0;
-final int FREQUENCY = 30;  // ==> Jouer sur la fréquence des animations
+float rotationSpeed = 0;
+float rotationStop = 0;
+boolean rotateRight = true;
+final int FREQUENCY = 100;  // ==> Jouer sur la fréquence des animations
 final int SIZE = 50;  // ==> Jouer sur la taille
 
 void setup() {
-  //size(1280, 720);  // HD
-  fullScreen();
+  size(1280, 720);  // HD
+  //fullScreen();
   
   // Initialisation de toutes les Moving Lines
   for (int i = 0; i < NB; i++) {
@@ -27,9 +31,16 @@ void draw() {
   
   translate(width/2, height/2);  // Fixe le plan au milieu
   
-  if (frameCount > 1996) rotate(rotation += 0.003);
-  else if (frameCount > 1789) rotate(rotation += 0.0016);
-  else if (frameCount > 1444) rotate(rotation += 0.0004);
+  if (rotateRight) {
+    rotate(rotation += rotationSpeed);
+  } else {
+    rotate(rotation -= rotationSpeed);
+  }
+  
+  // Lancer la rotation progressivement au fil du temps
+  //if (frameCount > 1996) rotate(rotation += 0.003);
+  //else if (frameCount > 1789) rotate(rotation += 0.0016);
+  //else if (frameCount > 1444) rotate(rotation += 0.0004);
   
   // Affichage des Moving Lines
   for (int i = 0; i < NB; i++) {
@@ -42,10 +53,45 @@ void draw() {
       lines[i].setAnimation(int(random(0,10)));
     }
   }
+  
+  // Sauvegarde des frames
+  //saveFrame("output/#####.jpg");
+}
+
+// Fonctions à l'appui sur des touches du clavier
+void keyPressed() {
+  switch(key) {
+    //case CODED:
+    //println(keyCode);
+    //  switch (keyCode) {
+    //    case ENTER: myColor.init(); break;
+    //  } break;
+    case ENTER : myColor.init(); break;
+    case ' ':
+      if (rotationStop == 0) {
+        rotationStop = rotationSpeed;
+        rotationSpeed = 0;
+      } else {
+        rotationSpeed = rotationStop;
+        rotationStop = 0;
+      } break;
+    case 'r': rotateRight = rotateRight ? false : true; break;
+    case '+': rotationSpeed += 0.004; break;
+    case '-': rotationSpeed -= 0.004; break;
+  }
 }
 
 // Fonctions au clic sur la souris
 void mousePressed()
 {
-   myColor.init();  // Réinitialise les couleurs
+   if (mouseButton == LEFT) {
+     myColor.init();  // Réinitialise les couleurs
+  } else if (mouseButton == RIGHT) {
+    rotateRight = rotateRight ? false : true;  // Inverse la rotation
+  }
+}
+
+// Scroll de la souris
+void mouseWheel(MouseEvent event) {
+  rotationSpeed += event.getCount() * 0.002;  // Augmente ou diminue la vitesse de rotation
 } //<>//
